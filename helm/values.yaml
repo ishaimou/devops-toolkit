@@ -4,7 +4,13 @@ image:
   pullPolicy: IfNotPresent
 ingress:
   enabled: true
-  host: devopstoolkitseries.com
+  className: cloud-provider-kind
+  host: toolkit.kind.cluster.local
+service:
+  name: devops-toolkit
+  type: ClusterIP
+  externalPort: 80
+  internalPort: 80
 resources:
   limits:
     cpu: 100m
@@ -23,11 +29,11 @@ istio:
 rollout:
   enabled: false
   steps:
-  - setWeight: 10
-  - pause: {duration: 2m}
-  - setWeight: 30
-  - pause: {duration: 30s}
-  - setWeight: 50
-  - pause: {duration: 30s}
+    - setWeight: 10
+    - pause: { duration: 2m }
+    - setWeight: 30
+    - pause: { duration: 30s }
+    - setWeight: 50
+    - pause: { duration: 30s }
   analysis:
     enabled: true

@@ -9,8 +9,9 @@ metadata:
     draft: {{ default "draft-app" .Values.draft }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
   annotations:
-    ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: {{ .Values.ingress.className }}
   rules:
   - http:
       paths:
@@ -18,7 +19,7 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-           name: {{ template "fullname" . }}
+           name: {{ .Values.service.name }}
            port:
              number: 80
     host: {{ .Values.ingress.host }}
